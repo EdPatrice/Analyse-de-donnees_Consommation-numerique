@@ -30,7 +30,7 @@ def generer_donnees(n):
     return donnees
 
 # Fonction pour écrire dans un fichier CSV
-def ecrire_csv(n, fichier="donnees_consommation.csv"):
+def ecrire_csv(n, fichier="Donnees/donnees_consommation.csv"):
     donnees = generer_donnees(n)
     with open(fichier, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
