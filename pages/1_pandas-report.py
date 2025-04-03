@@ -4,9 +4,14 @@ from functions import convert
 
 # Set the page title and icon
 st.set_page_config(page_title="Pandas", page_icon="🐼", layout="wide")
+
 df = pd.read_csv("Donnees/donnees_con.csv") # lecture du fichier csv
 
-st.title("Analyse des données de consommation numérique")
+# st.title("Analyse des données de consommation numérique")
+st.markdown("<h1 style='text-align: center;'>Analyse des données de consommation numérique</h1>", unsafe_allow_html=True)
+
+st.markdown("***", unsafe_allow_html=True)
+st.markdown("<br><br>", unsafe_allow_html=True)
 
 # Question 1
 # ------------------------------------------------------------------------------------------------------------
@@ -29,13 +34,16 @@ statistiques = {
     ]
 }
 
-st.write("\n Statistiques de temps quotidien par activité :")
+st.write("#### Statistiques de temps quotidien par activité :")
 df_resultat = pd.DataFrame(statistiques)
 df_resultat
 # ------------------------------------------------------------------------------------------------------------
 
+st.markdown("<br><br>", unsafe_allow_html=True)
+
 # Question 2
 # ------------------------------------------------------------------------------------------------------------
+df = pd.read_csv("Donnees/donnees_con.csv") # lecture du fichier csv
 # Nettoyer et éclater les plateformes
 df["Plateforme_Préférée"] = df["Plateforme_Préférée"].astype(str).str.split(";") # Convertir les valeurs en liste
 df["Plateforme_Préférée"] = df["Plateforme_Préférée"].apply(
@@ -60,15 +68,21 @@ distribution_sexe = pd.crosstab(
     columns=df_ex["Sexe"]
 )
 
-st.write("Répartition par Sexe")
+st.write("#### Répartition par Sexe")
 st.write(distribution_sexe)
 
-st.write("Répartition par Âge")
+st.markdown("<br><br>", unsafe_allow_html=True)
+
+st.write("#### Répartition par Âge")
 st.write(distribution_age)
 # ------------------------------------------------------------------------------------------------------------
 
+st.markdown("<br><br>", unsafe_allow_html=True)
+
 # Question 3
 # ------------------------------------------------------------------------------------------------------------
+df = pd.read_csv("Donnees/donnees_con.csv") # lecture du fichier csv
+
 # Nettoyer et éclater les appareils
 df["Appareil"] = df["Appareil"].str.split(";").apply(lambda x: [item.strip() for item in x])
 df_ex = df.explode("Appareil")
@@ -85,12 +99,15 @@ resultat = (
     .rename(columns={"Appareil": "Appareils utilisés", 0: "Pourcentage"})
 )
 
-st.write("Taux d'utilisation des appareils :")
+st.write("#### Taux d'utilisation des appareils :")
 st.write(resultat)
 # ------------------------------------------------------------------------------------------------------------
 
+st.markdown("<br><br>", unsafe_allow_html=True)
+
 # Bonus
 # ------------------------------------------------------------------------------------------------------------
+df = pd.read_csv("Donnees/donnees_con.csv") # lecture du fichier csv
 # Convertion des colonnes d'activités 
 for col in ['Temps_Réseau', 'Temps_Streaming', 'Temps_Jeux'] : 
     df[col] = df[col].apply(convert)
@@ -114,7 +131,10 @@ statistiques = {
     ]
 }
 
+st.markdown("***", unsafe_allow_html=True)
+st.markdown("<br><br>", unsafe_allow_html=True)
+
 st.title("Bonus")
-st.write("\n Statistiques de temps quotidien par activité :")
+st.write("#### Statistiques de temps quotidien par activité :")
 df_resultat = pd.DataFrame(statistiques)
 st.write(df_resultat)
