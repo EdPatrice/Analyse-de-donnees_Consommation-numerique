@@ -1,4 +1,6 @@
 def temps_moyen(intervalle: str) -> float:
+    if intervalle.__contains__('<'):
+        return 0.5
     intervalle = intervalle.replace("h", '')
     intervalle = intervalle.replace(" -", '').split(' ')
     a = int(intervalle[0])

@@ -17,6 +17,22 @@ df = pd.read_csv("Donnees/donnees_con.csv")
 # nettoyage des données
 df.rename(columns={"Age ": "Age", "Appareil ": "Appareil", "Temps_Réseau": "Temps_Reseau", "Plateforme_Préférée": "Plateforme_Preferee"}, inplace=True)
 df.drop(columns={"Horodateur"}, inplace=True)
+df["Age"] = df["Age"].astype("string")
+df["Temps_Reseau"] = df["Temps_Reseau"].astype("string")
+df["Temps_Streaming"] = df["Temps_Streaming"].astype("string")
+df["Temps_Jeux"] = df["Temps_Jeux"].astype("string")
+df["Plateforme_Preferee"] = df["Plateforme_Preferee"].astype("string")
+df["Appareil"] = df["Appareil"].astype("string")
+
+# Convertir les colonnes ayant plusieurs valeurs en liste
+df["Plateforme_Preferee"] = df["Plateforme_Preferee"].str.split(";")
+df["Appareil"] = df["Appareil"].str.split(";")
+
+# Explosion de la premiere colonne
+df = df.explode("Plateforme_Preferee")
+
+# Explosion de la deuxieme colonne
+df = df.explode("Appareil")
 # ------------------------------------------------------------------------------------------------------------
 
 st.write(df)
@@ -46,7 +62,9 @@ utilisation_plateforme =  df.groupby("Plateforme_Preferee", as_index=False)["Sex
 utilisation_plateforme.rename(columns={"Sexe": "Nombre"}, inplace=True)
 top_plateforme = utilisation_plateforme.sort_values("Nombre", ascending=False).head(10)
 
-st.bar_chart(top_plateforme, x="Plateforme_Preferee", y="Nombre", x_label="Plateforme préférée", y_label="Nombre d'utilisateurs")   
+
+# st.bar_chart(top_plateforme.set_index("Plateforme_Preferee")["Nombre"], x="Plateforme_Preferee", y="Nombre", x_label="Plateforme préférée", y_label="Nombre d'utilisateurs")   
+st.bar_chart(top_plateforme.set_index("Plateforme_Preferee")["Nombre"], x_label="Plateforme préférée", y_label="Nombre d'utilisateurs")   
 
 
 # ------------------------------------------------------------------------------------------------------------
@@ -59,9 +77,10 @@ appareils_utilises = df.groupby("Appareil", as_index=False)["Sexe"].count()
 appareils_utilises.rename(columns={"Sexe": "Nombre"}, inplace=True)
 sections = appareils_utilises['Nombre']
 names = appareils_utilises["Appareil"]
+explode = [0.05 if i == 3 else 0 for i in range(len(sections))]  # faire que explode soit dynamique
 
 fig, ax = plt.subplots()
-ax.pie(sections, labels=names, autopct="%1.1f%%", explode=(0, 0.05))
+ax.pie(sections, labels=names, autopct="%1.1f%%", explode=explode)
 ax.set_title("Appareils utilisés")
 
 st.pyplot(fig)
@@ -88,7 +107,8 @@ col1, col2 = st.columns(2)
 # colonne 1
 with col1:
     fig1, ax = plt.subplots()
-    ax.pie(sections, labels=names, autopct="%1.1f%%", explode=(0.05, 0, 0))
+    explode = [0.05 if i == 0 else 0 for i in range(len(sections))]  # faire que explode soit dynamique
+    ax.pie(sections, labels=names, autopct="%1.1f%%", explode=explode)
     ax.set_title("Plateformes utilisées par les hommes")
     st.pyplot(fig1)
 
@@ -102,7 +122,8 @@ names = plateformes_femme["Plateforme_Preferee"]
 # colonne 2
 with col2: 
     fig2, ax = plt.subplots()
-    ax.pie(sections, labels=names, autopct="%1.1f%%", explode=(0.05, 0, 0, 0))
+    explode = [0.05 if i == 0 else 0 for i in range(len(sections))]  # faire que explode soit dynamique
+    ax.pie(sections, labels=names, autopct="%1.1f%%", explode=explode)
     ax.set_title("Plateformes utilisées par les Femmes")
     st.pyplot(fig2)
 
