@@ -3,10 +3,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Set the page title and icon
-st.set_page_config(page_title="Matplotlib", page_icon="📊", layout="wide")
+st.set_page_config(page_title="Matplotlib", page_icon="📊")
 
-st.title("Rapport d'utilisation numérique")
-st.write("## Données collectées")
+st.markdown("<h1 style='text-align: center;'>Rapport de consommation numérique</h1>", unsafe_allow_html=True)
+
+st.markdown("***", unsafe_allow_html=True)
+st.markdown("<br><br>", unsafe_allow_html=True)
+
+st.write("#### Données collectées")
 
 df = pd.read_csv("Donnees/donnees_con.csv")
 
@@ -19,7 +23,9 @@ st.write(df)
 
 # ------------------------------------------------------------------------------------------------------------
 
-st.write("## Histogramme représentatif du temps passé sur les réseaux sociaux")
+st.markdown("<br><br>", unsafe_allow_html=True)
+
+st.write("#### Histogramme représentatif du temps passé sur les réseaux sociaux")
 
 # fig, ax = plt.subplots() 
 # ax.hist(df["Temps_Reseau"], color="#500120", edgecolor='white') 
@@ -32,7 +38,9 @@ st.bar_chart(hist_values, x_label="Temps passé sur les réseaux sociaux", y_lab
 
 # ------------------------------------------------------------------------------------------------------------
 
-st.write("## Diagramme en barre des plateformes les plus utilisées")
+st.markdown("<br><br>", unsafe_allow_html=True)
+
+st.write("#### Diagramme en barre des plateformes les plus utilisées")
 
 utilisation_plateforme =  df.groupby("Plateforme_Preferee", as_index=False)["Sexe"].count()
 utilisation_plateforme.rename(columns={"Sexe": "Nombre"}, inplace=True)
@@ -42,7 +50,10 @@ st.bar_chart(top_plateforme, x="Plateforme_Preferee", y="Nombre", x_label="Plate
 
 
 # ------------------------------------------------------------------------------------------------------------
-st.write("## Répartition des types d'appareils utilisés")
+
+st.markdown("<br><br>", unsafe_allow_html=True)
+
+st.write("#### Répartition des types d'appareils utilisés")
 
 appareils_utilises = df.groupby("Appareil", as_index=False)["Sexe"].count()
 appareils_utilises.rename(columns={"Sexe": "Nombre"}, inplace=True)
@@ -56,7 +67,11 @@ ax.set_title("Appareils utilisés")
 st.pyplot(fig)
 
 # ------------------------------------------------------------------------------------------------------------
+st.markdown("<br><br>", unsafe_allow_html=True)
+st.markdown("***", unsafe_allow_html=True)
+
 st.title("Bonus")
+st.markdown("<br><br>", unsafe_allow_html=True)
 st.write("### Plateformes les plus utilisées par sexe")
 
 # Hommes
