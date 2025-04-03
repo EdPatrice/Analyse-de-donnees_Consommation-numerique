@@ -2,7 +2,10 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-st.write("# Rapport d'utilisation numérique")
+# Set the page title and icon
+st.set_page_config(page_title="Matplotlib", page_icon="📊", layout="wide")
+
+st.title("Rapport d'utilisation numérique")
 st.write("## Données collectées")
 
 df = pd.read_csv("Donnees/donnees_con.csv")
@@ -53,7 +56,7 @@ ax.set_title("Appareils utilisés")
 st.pyplot(fig)
 
 # ------------------------------------------------------------------------------------------------------------
-st.write("## Bonus")
+st.title("Bonus")
 st.write("### Plateformes les plus utilisées par sexe")
 
 # Hommes
