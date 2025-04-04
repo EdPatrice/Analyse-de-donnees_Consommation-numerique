@@ -1,6 +1,7 @@
 import streamlit as st 
 import pandas as pd
 import matplotlib.pyplot as plt
+import altair as alt
 
 # Set the page title and icon
 st.set_page_config(page_title="Matplotlib", page_icon="📊")
@@ -43,12 +44,6 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 
 st.write("#### Histogramme représentatif du temps passé sur les réseaux sociaux")
 
-# fig, ax = plt.subplots() 
-# ax.hist(df["Temps_Reseau"], color="#500120", edgecolor='white') 
-# ax.set_xlabel("Nombre d'heures par jour")  
-# ax.set_title("Temps passé sur les réseaux sociaux")
-# st.pyplot(fig)
-
 hist_values = df["Temps_Reseau"].value_counts().sort_index()
 st.bar_chart(hist_values, x_label="Temps passé sur les réseaux sociaux", y_label="Nombre d'utilisateurs")
 
@@ -62,9 +57,11 @@ utilisation_plateforme =  df.groupby("Plateforme_Preferee", as_index=False)["Sex
 utilisation_plateforme.rename(columns={"Sexe": "Nombre"}, inplace=True)
 top_plateforme = utilisation_plateforme.sort_values("Nombre", ascending=False).head(10)
 
-
-# st.bar_chart(top_plateforme.set_index("Plateforme_Preferee")["Nombre"], x="Plateforme_Preferee", y="Nombre", x_label="Plateforme préférée", y_label="Nombre d'utilisateurs")   
-st.bar_chart(top_plateforme.set_index("Plateforme_Preferee")["Nombre"], x_label="Plateforme préférée", y_label="Nombre d'utilisateurs")   
+# Afficher la 'bar chart' en ordre decroissant de telle sorte que les plateforme les plus utilisees apparaissent en premier
+st.write(alt.Chart(top_plateforme).mark_bar().encode(
+    x = alt.X('Plateforme_Preferee', sort=None),
+    y = 'Nombre'
+))
 
 
 # ------------------------------------------------------------------------------------------------------------
