@@ -137,6 +137,7 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 st.title("Bonus")
 st.write("#### Statistiques de temps quotidien par activité :")
 df_resultat = pd.DataFrame(statistiques)
+
 st.write(df_resultat)
 
 # Conclusion
@@ -149,4 +150,3 @@ st.markdown("Cette étude révèle que la majorité des personnes, toutes tranch
 '<br> -> Par âge : Les 10-24 ans utilisent principalement Instagram,Snapchat, Telegram, TikTok et WhatsApp.'\
 '<br> Les 25 ans et plus préfèrent Facebook, LinkedIn, Reddit et Twitter.'\
 '<br> -> Par appareil : Le smartphone est le plus utilisé (81,36 %), tandis que la Smart TV est la moins populaire (6,78 %).', unsafe_allow_html=True)
-
